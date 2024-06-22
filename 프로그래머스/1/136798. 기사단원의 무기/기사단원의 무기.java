@@ -1,25 +1,24 @@
 class Solution {
-    public int solution(int number, int limit, int power) {
-        int[] num = new int[number + 1];
+     public int solution(int number, int limit, int power) {
+        int[] divisors = new int[number + 1];
         int result = 0;
 
+        // 약수의 개수를 계산합니다.
         for (int i = 1; i <= number; i++) {
-            int sum = 0;
-            for (int j = 1; j * j <= i; j++) {
-                if (i % j == 0) {
-                    sum++;
-                    if (j != i / j) {
-                        sum++;
-                    }
-                }
+            for (int j = i; j <= number; j += i) {
+                divisors[j]++;
             }
-            if (sum > limit) {
-                num[i] = power;
-            } else {
-                num[i] = sum;
-            }
-            result += num[i];
         }
+
+        // 약수의 개수에 따라 피로도를 계산합니다.
+        for (int i = 1; i <= number; i++) {
+            if (divisors[i] > limit) {
+                result += power;
+            } else {
+                result += divisors[i];
+            }
+        }
+
         return result;
     }
 }
